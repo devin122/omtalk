@@ -3,7 +3,7 @@
 set -xe
 
 #TODO this should be set somewhere else
-set LLVM_INSTALL_DIR=$HOME/llvm
+set LLVM_INSTALL_DIR=~/llvm
 sudo apt-get update -y
 sudo apt-get install -y g++ gcc ninja-build cmake 
 #$LLVM_BIN_DIR
