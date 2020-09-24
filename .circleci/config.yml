@@ -8,7 +8,7 @@ jobs:
       - image: devin122/omtalk-ci:latest  # hack until we get something better set up
     steps:
       - run: sudo apt-get update -y
-      - run: sudo apt-get install -y cmake ninja-build
+      - run: sudo apt-get install -y cmake ninja-build nasm
       - checkout
       - run: git submodule sync
       - run: .circleci/update_submodules.sh
