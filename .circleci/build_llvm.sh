@@ -4,8 +4,8 @@ set -xe
 
 #TODO this should be set somewhere else
 set LLVM_INSTALL_DIR=$HOME/llvm
-apt-get update -y
-apt-get install -y g++ gcc ninja-build lld-8 cmake 
+sudo apt-get update -y
+sudo apt-get install -y g++ gcc ninja-build lld-8 cmake 
 #$LLVM_BIN_DIR
 if [ -e $LLVM_INSTALL_DIR/lib/cmake/mlir/AddMLIR.cmake ] ; then
 	echo "Could not find cached llvm, rebuilding"
