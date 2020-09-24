@@ -3,11 +3,12 @@
 set -xe
 
 #TODO this should be set somewhere else
-set LLVM_INSTALL_DIR=~/llvm
+# also for whatever reason it looks like $HOME / ~ are not being expanded
+set LLVM_INSTALL_DIR=/home/circleci/llvm-install
 sudo apt-get update -y
 sudo apt-get install -y g++ gcc ninja-build cmake 
 #$LLVM_BIN_DIR
-if [ -e $LLVM_INSTALL_DIR/lib/cmake/mlir/AddMLIR.cmake ] ; then
+if [ ! -e $LLVM_INSTALL_DIR/lib/cmake/mlir/AddMLIR.cmake ] ; then
 	echo "Could not find cached llvm, rebuilding"
 	git submodule update --init --depth 1 external/llvm-project
 	LLVM_SRC_DIR=$PWD/external/llvm-project/llvm
