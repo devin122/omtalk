@@ -11,14 +11,14 @@ jobs:
       - run: git submodule status --cached external/llvm-project > llvm_module.txt
       - run: mkdir -p build/llvm-project build/omtalk
       - restore_cache:
-        name: Restoring cached llvm build
-        key: llvm-{{ arch }}-{{ checksum "llvm_module.txt" }}-v1
+          name: Restoring cached llvm build
+          key: llvm-{{ arch }}-{{ checksum "llvm_module.txt" }}-v1
       - run: .circleci/build_llvm.sh
       - save_cache:
-        paths:
-          - ~/llvm
-        key: llvm-{{ arch }}-{{ checksum "llvm_module.txt" }}-v1
-        name: "Caching llvm build"
+          paths:
+            - ~/llvm
+          key: llvm-{{ arch }}-{{ checksum "llvm_module.txt" }}-v1
+          name: "Caching llvm build"
       - run: .circleci/update_submodules.sh
 # Orchestrate or schedule a set of jobs
 workflows:
@@ -27,3 +27,8 @@ workflows:
     # Run the welcome/run job in its own container
     jobs:
       - build
+steps:
+  - save_cache:
+      key: v1-myapp-cache
+      paths:
+        - ~/d1
