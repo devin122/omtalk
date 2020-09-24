@@ -4,26 +4,20 @@ version: 2.1
 
 jobs:
   build:
-    machine: true
+    docker:
+      - image: devin122/omtalk-ci:latest  # hack until we get something better set up
     steps:
+      - run: sudo apt-get update
+      - run: sudo apt-get intall cmake ninja-build
       - checkout
       - run: git submodule sync
-      - run: git submodule status --cached external/llvm-project > llvm_module.txt
-      - run: mkdir -p build/llvm-project build/omtalk
-      - restore_cache:
-          name: Restoring cached llvm build
-          key: llvm-{{ arch }}-{{ checksum "llvm_module.txt" }}-v1
-      - run: .circleci/build_llvm.sh
-      - save_cache:
-          paths:
-            - ~/llvm
-          key: llvm-{{ arch }}-{{ checksum "llvm_module.txt" }}-v1
-          name: "Caching llvm build"
       - run: .circleci/update_submodules.sh
+      - run: .circleci/build.sh
+
 # Orchestrate or schedule a set of jobs
 workflows:
   # Name the workflow "welcome"
-  build-with-machine:
+  work:
     # Run the welcome/run job in its own container
     jobs:
       - build
