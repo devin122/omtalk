@@ -2,12 +2,28 @@
 version: 2.1
 # Use a package of configuration called an orb.
 orbs:
-  # Declare a dependency on the welcome-orb
-  welcome: circleci/welcome-orb@0.4.1
+  jobs:
+    build:
+      machine: true
+      steps:
+        - checkout
+        - run: git submodule sync
+        - run: git submodule status --cached external/llvm-project > llvm_module.txt
+        - run: mkdir -p build/llvm-project build/omtalk
+        - restore_cache:
+          name: Restoring cached llvm build
+          key: llvm-{{ arch }}-{{ checksum "llvm_module.txt" }}-v1
+        - run: .circleci/build_llvm.sh
+        - save_cache:
+          paths:
+            - ~/llvm
+          key: llvm-{{ arch }}-{{ checksum "llvm_module.txt" }}-v1
+          name: "Caching llvm build"
+        - run: .circleci/update_submodules.sh
 # Orchestrate or schedule a set of jobs
 workflows:
   # Name the workflow "welcome"
-  welcome:
+  build-with-machine:
     # Run the welcome/run job in its own container
     jobs:
-      - welcome/run
+      - build
