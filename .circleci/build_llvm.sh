@@ -4,7 +4,7 @@ set -xe
 
 #TODO this should be set somewhere else
 # also for whatever reason it looks like $HOME / ~ are not being expanded
-set LLVM_INSTALL_DIR=/home/circleci/llvm-install
+LLVM_INSTALL_DIR=$HOME/circleci/llvm-install
 sudo apt-get update -y
 sudo apt-get install -y g++ gcc ninja-build cmake 
 #$LLVM_BIN_DIR
